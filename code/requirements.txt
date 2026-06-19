@@ -1,0 +1,5 @@
+# Runtime dependencies for the Multi-Modal Evidence Review pipeline.
+# The Gemini call is plain REST (no model SDK needed).
+requests>=2.31
+pillow>=10.0
+numpy>=1.24
