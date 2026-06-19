@@ -1,0 +1,16 @@
+# Secrets — NEVER commit
+.env
+.env.*
+!.env.example
+
+# Caches / build
+.cache/
+__pycache__/
+*.pyc
+code.zip
+
+# Local virtualenv
+venv/
+
+# Agent/editor local state
+.claude/
