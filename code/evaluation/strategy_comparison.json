@@ -1,0 +1,38 @@
+{
+  "heuristic": {
+    "acc:evidence_standard_met": 0.9,
+    "acc:issue_type": 0.6,
+    "acc:object_part": 0.7,
+    "acc:claim_status": 0.65,
+    "acc:valid_image": 0.9,
+    "acc:severity": 0.55,
+    "f1:claim_status": 0.2626,
+    "f1:issue_type": 0.64,
+    "jac:risk_flags": 0.6533,
+    "jac:support_ids": 0.725
+  },
+  "gemini-hybrid": {
+    "acc:evidence_standard_met": 1.0,
+    "acc:issue_type": 0.6,
+    "acc:object_part": 0.7,
+    "acc:claim_status": 0.8,
+    "acc:valid_image": 0.9,
+    "acc:severity": 0.6,
+    "f1:claim_status": 0.7296,
+    "f1:issue_type": 0.639,
+    "jac:risk_flags": 0.7792,
+    "jac:support_ids": 0.875
+  },
+  "gemini-direct": {
+    "acc:evidence_standard_met": 1.0,
+    "acc:issue_type": 0.6,
+    "acc:object_part": 0.7,
+    "acc:claim_status": 0.7,
+    "acc:valid_image": 0.9,
+    "acc:severity": 0.65,
+    "f1:claim_status": 0.5876,
+    "f1:issue_type": 0.539,
+    "jac:risk_flags": 0.7167,
+    "jac:support_ids": 0.825
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "n": 20,
+  "full_data": {
+    "v0-hybrid-so1-hi0": {
+      "acc": 0.8,
+      "f1": 0.7296
+    },
+    "v0-hybrid-so1-hi1": {
+      "acc": 0.8,
+      "f1": 0.7296
+    },
+    "v0-hybrid-so0-hi0": {
+      "acc": 0.75,
+      "f1": 0.6969
+    },
+    "v0-hybrid-so0-hi1": {
+      "acc": 0.75,
+      "f1": 0.6969
+    },
+    "v1-hybrid-so1-hi0": {
+      "acc": 0.75,
+      "f1": 0.6969
+    },
+    "v1-hybrid-so1-hi1": {
+      "acc": 0.75,
+      "f1": 0.6969
+    },
+    "v1-hybrid-so0-hi0": {
+      "acc": 0.7,
+      "f1": 0.6667
+    },
+    "v1-hybrid-so0-hi1": {
+      "acc": 0.7,
+      "f1": 0.6667
+    }
+  },
+  "loocv_heldout_acc": 0.8,
+  "fivefold_heldout_acc": 0.8,
+  "recommended_config": "v0-hybrid-so1-hi0",
+  "loocv_selection_freq": {
+    "v0-hybrid-so1-hi0": 20
+  },
+  "fivefold_detail": [
+    {
+      "test_n": 5,
+      "chosen": "v0-hybrid-so1-hi0",
+      "held_acc": 1.0
+    },
+    {
+      "test_n": 5,
+      "chosen": "v0-hybrid-so1-hi0",
+      "held_acc": 0.6
+    },
+    {
+      "test_n": 4,
+      "chosen": "v0-hybrid-so1-hi0",
+      "held_acc": 0.75
+    },
+    {
+      "test_n": 3,
+      "chosen": "v0-hybrid-so1-hi0",
+      "held_acc": 1.0
+    },
+    {
+      "test_n": 3,
+      "chosen": "v0-hybrid-so1-hi0",
+      "held_acc": 0.667
+    }
+  ]
+}

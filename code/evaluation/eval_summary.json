@@ -1,0 +1,35 @@
+{
+  "n": 20,
+  "exact_accuracy": {
+    "evidence_standard_met": 1.0,
+    "issue_type": 0.6,
+    "object_part": 0.7,
+    "claim_status": 0.8,
+    "valid_image": 0.9,
+    "severity": 0.6
+  },
+  "macro_f1": {
+    "claim_status": 0.7296,
+    "issue_type": 0.639,
+    "object_part": 0.7167,
+    "severity": 0.32
+  },
+  "soft": {
+    "risk_flags_jaccard": 0.7792,
+    "supporting_image_ids_jaccard": 0.875
+  },
+  "claim_status_confusion": {
+    "supported": {
+      "supported": 12,
+      "contradicted": 1
+    },
+    "contradicted": {
+      "contradicted": 2,
+      "not_enough_information": 1,
+      "supported": 2
+    },
+    "not_enough_information": {
+      "not_enough_information": 2
+    }
+  }
+}
