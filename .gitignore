@@ -11,6 +11,3 @@ code.zip
 
 # Local virtualenv
 venv/
-
-# Agent/editor local state
-.claude/
