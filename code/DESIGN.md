@@ -1,8 +1,7 @@
 # System Design Sheet — Multi-Modal Evidence Review
 
-Status: **DRAFT for review** (no Gemini backend built yet). Every decision below
-lists the **choice**, the **why**, and the **alternatives rejected**. Decisions
-marked 🔶 need your explicit sign-off before implementation.
+Every decision below lists the **choice**, the **why**, and the **alternatives
+rejected**. This is the design the shipped pipeline implements.
 
 ---
 
@@ -40,7 +39,7 @@ authenticity) **and proposes a `claim_status` + `confidence`**. A deterministic
   - injection/authenticity/history → risk flags only (never flips by themselves)
 - *Why:* keeps the model's visual judgement where it is strongest while keeping
   a deterministic, auditable guard-rail for the cases that must not be argued
-  away by "approve this claim" text. Best of both; explainable for the judge.
+  away by "approve this claim" text. Best of both; explainable on audit.
 - *Rejected:* (a) pure observe-then-rules-decide — most reproducible but discards
   the model's holistic read; (b) pure VLM-decides — least controllable, weakest
   determinism, most injection-vulnerable.
@@ -50,21 +49,21 @@ authenticity) **and proposes a `claim_status` + `confidence`**. A deterministic
 ## 2. Model / backend
 
 **Decision D2 — Primary backend: Google Gemini (hosted free tier), default
-`gemini-2.5-flash`.** 🔶
+`gemini-2.5-flash`.**
 - *Why:* after CPU-only killed local VLMs (Ollama rejected `mllama`/llama3.2-vision;
   `llava:7b` misread a clear rear-bumper dent as "not a car"; ~160 s/inference),
   Gemini Flash is the only **no-cost** option with strong multimodal quality. The
   workload (~64 calls total) fits comfortably inside the free daily cap.
-- *Rejected:* Ollama local (unsupported/weak/slow on this box); Anthropic/OpenAI
+- *Rejected:* Ollama local (unsupported/weak/slow on this box); other hosted VLM APIs
   (not free); heuristic-only (can't see, macro-F1 0.26 on sample).
 
 **Decision D3 — Pluggable backend interface + heuristic fallback always present.**
 - *Why:* resilience (a 429 or parse failure drops to the deterministic heuristic
-  for that row so the run never dies); satisfies README's "compare ≥2 strategies";
+  for that row so the run never dies); satisfies the brief's "compare ≥2 strategies";
   lets the whole pipeline run with zero key for testing.
 - *Rejected:* single hardcoded Gemini path (brittle, untestable offline).
 
-**Decision D4 — Transport: Gemini REST via `requests` (already installed).** 🔶
+**Decision D4 — Transport: Gemini REST via `requests` (already installed).**
 - *Why:* zero new dependencies → maximally reproducible; full control over
   `response_mime_type=application/json`, `temperature=0`, retry/throttle.
 - *Rejected:* `google-genai` SDK (adds a dependency for little gain here).
@@ -105,7 +104,7 @@ object or claimed-damage-not-visible → `contradicted` → visible issue
 incompatible with claimed family → `contradicted` → else damage visible &
 compatible → `supported`. (Full table in `postprocess.py`.)
 
-**Decision D9 — User history is RISK ONLY; it never flips a visual verdict.** 🔶
+**Decision D9 — User history is RISK ONLY; it never flips a visual verdict.**
 - *Why:* explicit problem-statement rule. History adds `user_history_risk` /
   `manual_review_required` and justification context only.
 - *Rejected:* let a bad record downgrade `supported`→`contradicted` (violates spec).
@@ -142,12 +141,12 @@ sets; `object_part` validated against the object-specific list; booleans as
 lowercase `true`/`false`; columns written in exact required order, all quoted.
 - *Why:* guarantees a gradeable `output.csv`; no out-of-vocabulary values.
 
-**Decision D16 — No hardcoded labels / case-id answers** (README hard rule); the
+**Decision D16 — No hardcoded labels / case-id answers** (a hard rule of the brief); the
 parser/rules are generic keyword/feature logic.
 
 ---
 
-## 7. Strategy comparison (README requires ≥2)
+## 7. Strategy comparison (at least two strategies)
 
 **Decision D17 — Compare THREE strategies on the sample set (chosen):**
 1. **Heuristic baseline** (no model) — measured: claim_status acc 0.65, F1 0.26.
@@ -158,7 +157,7 @@ parser/rules are generic keyword/feature logic.
 
 ---
 
-## 8. Repo layout (matches README)
+## 8. Repo layout
 
 ```
 code/
@@ -172,15 +171,3 @@ code/
 output.csv                # final predictions (repo root)
 .env (git-ignored)  .env.example  .gitignore
 ```
-
----
-
-## 9. Open decisions needing sign-off
-
-| # | Decision | Default |
-|---|---|---|
-| D2 | Gemini model | `gemini-2.5-flash` |
-| D4 | REST vs SDK | REST via `requests` (no new deps) |
-| D9 | History never flips verdict | Yes (per spec) |
-| D11 | Severity from VLM | Yes |
-| D17 | Which strategies to compare | Heuristic vs Gemini-observe-decide (+ optional direct-verdict) |
